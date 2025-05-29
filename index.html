@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>YouTube Audio with Mute Toggle</title>
+  <title>Audio with Mute Toggle</title>
   <style>
     body {
       font-family: sans-serif;
@@ -20,67 +20,47 @@
       width: 40px;
       height: 40px;
     }
-    #player {
-      <!--display: none;-->
-    }
   </style>
 </head>
 <body>
 
-  <div id="player"></div>
+  <!-- HTML5 Audio Player, hidden -->
+  <audio id="audioPlayer" autoplay loop>
+    <source src="Crystal Serenity.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
 
+  <!-- Mute toggle button -->
   <button class="mute-button" id="muteToggle" title="Toggle Mute">
-    <img id="muteIcon" src="muted.png" alt="Muted" />
+    <img id="muteIcon" src="unmuted.png" alt="Unmuted" />
   </button>
 
   <script>
-    let player;
-    let isMuted = true;
-
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('player', {
-        height: '0',
-        width: '0',
-        videoId: '1ZYbU82GVz4',
-        playerVars: {
-          autoplay: 1,
-          mute: 1,
-          loop: 1,
-          playlist: '1ZYbU82GVz4',
-          controls: 0,
-          modestbranding: 1,
-          rel: 0,
-          showinfo: 0
-        },
-        events: {
-          onReady: function (e) {
-            e.target.playVideo();
-          }
-        }
-      });
-    }
-
     document.addEventListener('DOMContentLoaded', function () {
+      const audio = document.getElementById('audioPlayer');
       const muteBtn = document.getElementById('muteToggle');
       const muteIcon = document.getElementById('muteIcon');
 
+      // Start muted or unmuted depending on your preference:
+      // audio.muted = true; // if you want it muted by default
+      audio.muted = false;  // or unmuted by default
+      updateIcon();
+
       muteBtn.addEventListener('click', function () {
-        if (isMuted) {
-          player.unMute();
-          muteIcon.src = 'unmuted.png';
-          muteIcon.alt = 'Unmuted';
-        } else {
-          player.mute();
+        audio.muted = !audio.muted;
+        updateIcon();
+      });
+
+      function updateIcon() {
+        if (audio.muted) {
           muteIcon.src = 'muted.png';
           muteIcon.alt = 'Muted';
+        } else {
+          muteIcon.src = 'unmuted.png';
+          muteIcon.alt = 'Unmuted';
         }
-        isMuted = !isMuted;
-      });
+      }
     });
-
-    const tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    document.body.appendChild(tag);
   </script>
 
 </body>
