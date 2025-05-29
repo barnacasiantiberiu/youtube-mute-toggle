@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>YouTube Player with Mute Toggle (Images)</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin-top: 40px;
+    }
+    .mute-button {
+      cursor: pointer;
+      border: none;
+      background: none;
+      margin-top: 10px;
+      padding: 0;
+    }
+    .mute-button img {
+      width: 40px;
+      height: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="player"></div>
+  <button class="mute-button" id="muteToggle" title="Toggle Mute">
+    <img id="muteIcon" src="muted.png" alt="Mute" />
+  </button>
+
+  <script>
+    let player;
+    let isMuted = true;
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '315',
+        width: '560',
+        videoId: '-1ZYbU82GVz4',
+        playerVars: {
+          autoplay: 1,
+          mute: 1,
+          loop: 1,
+          playlist: '-1ZYbU82GVz4',
+          controls: 0,
+          modestbranding: 1,
+          rel: 0,
+          showinfo: 0
+        },
+        events: {
+          onReady: function (e) {
+            e.target.playVideo();
+          }
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const muteBtn = document.getElementById('muteToggle');
+      const muteIcon = document.getElementById('muteIcon');
+
+      muteBtn.addEventListener('click', function () {
+        if (isMuted) {
+          player.unMute();
+          muteIcon.src = 'unmuted.png';
+          muteIcon.alt = 'Unmute';
+        } else {
+          player.mute();
+          muteIcon.src = 'muted.png';
+          muteIcon.alt = 'Mute';
+        }
+        isMuted = !isMuted;
+      });
+    });
+
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+  </script>
+
+</body>
+</html>
