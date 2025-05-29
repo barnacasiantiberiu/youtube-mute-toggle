@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>YouTube Player with Mute Toggle (Images)</title>
+  <title>YouTube Audio with Mute Toggle</title>
   <style>
     body {
       font-family: sans-serif;
@@ -20,13 +20,17 @@
       width: 40px;
       height: 40px;
     }
+    #player {
+      display: none;
+    }
   </style>
 </head>
 <body>
 
   <div id="player"></div>
+
   <button class="mute-button" id="muteToggle" title="Toggle Mute">
-    <img id="muteIcon" src="muted.png" alt="Mute" />
+    <img id="muteIcon" src="muted.png" alt="Muted" />
   </button>
 
   <script>
@@ -35,14 +39,14 @@
 
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('player', {
-        height: '315',
-        width: '560',
-        videoId: '-1ZYbU82GVz4',
+        height: '0',
+        width: '0',
+        videoId: '1ZYbU82GVz4',
         playerVars: {
           autoplay: 1,
           mute: 1,
           loop: 1,
-          playlist: '-1ZYbU82GVz4',
+          playlist: '1ZYbU82GVz4',
           controls: 0,
           modestbranding: 1,
           rel: 0,
@@ -64,11 +68,11 @@
         if (isMuted) {
           player.unMute();
           muteIcon.src = 'unmuted.png';
-          muteIcon.alt = 'Unmute';
+          muteIcon.alt = 'Unmuted';
         } else {
           player.mute();
           muteIcon.src = 'muted.png';
-          muteIcon.alt = 'Mute';
+          muteIcon.alt = 'Muted';
         }
         isMuted = !isMuted;
       });
